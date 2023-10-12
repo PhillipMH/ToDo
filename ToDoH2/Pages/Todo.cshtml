@@ -1,26 +1,71 @@
-﻿﻿@page "{userid:int}"
-@model ToDoH2.Pages.TodoModel
+﻿@page
+@model TodoModel
 @{
+
 }
+
+<!DOCTYPE html>
+<html>
 <head>
-	<script src="https://kit.fontawesome.com/477477980c.js" crossorigin="anonymous"></script>
+    <title>TODO List</title>
+    <style>
+        .todo-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            width: 300px;
+        }
+        .todo-id{
+            font-size: 8px;
+            text-align: right;        }
+        .todo-title {
+            font-weight: bold;
+            text-align: center
+        }
+        .todo-desc {
+            margin-top: 5px;
+        }
+        .datecreated {
+            font-size: 10px;
+            text-align: right;
+            
+        }
+    </style>
 </head>
+<body>
+    <center>
+        <h1>Welcome, @Model.name!</h1>
+        <h2>TODO List</h2>
+        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">Add new todo</button>
 
+        <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+            <div class="offcanvas-header">
+                <h3 id="offcanva">Add New ToDo</h3>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <!-- Your form for adding new todo items can go here -->
+            </div>
+        </div>
+    </center>
 
-<link rel="stylesheet" href="~/css/Booksite.css"/>
-	<div class="container">
-		@foreach(var item in Model.) {
-	<a asp-route-bookid="@item.bookid" asp-page="/Book">
-		<div class="image" style="background-image: url(@item.imagepath)">
-			<div class="overlay">
-					<div class="overlay-text">@item.booktitle</div>
-			</div>
-		</div>
-	</a>
-		
-}
-	</div>
-	<script>
-		document.querySelectorAll('.image').forEach(image => {
-			image.addEventListener('click', () => {
-				</Script>
+    @if (Model.toDos.Count > 0)
+    {
+        @foreach (var todo in Model.toDos)
+        {
+            <center>
+            <div class="todo-box">
+                <div class="todo-id">@todo.todoId</div>
+                <div class="todo-title">@todo.ToDoTitle</div>
+                <div class="todo-desc">@todo.ToDoDescription</div>
+                <div class="datecreated">@todo.DateCreated</div>
+            </div>
+            </center>
+        }
+    }
+    else
+    {
+        <p>No TODO items found.</p>
+    }
+</body>
+</html>

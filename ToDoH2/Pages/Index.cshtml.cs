@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.Identity.Client;
 using ToDo_Domain.Connection;
 using ToDo_Domain.Entities;
 using ToDoH2.SessionHelper;
@@ -20,7 +22,8 @@ namespace ToDoH2.Pages
         public string username { get; set; }
         [BindProperty]
         public string password { get; set; }
-        public IActionResult OnPost()
+        public int userid { get; set; }
+        public IActionResult OnPost(string username)
         {
             Console.WriteLine(username);
 
@@ -30,7 +33,7 @@ namespace ToDoH2.Pages
                 return Page();
             }
             User founduser;
-            founduser = _connection.LoginforUsers(username, password);
+            founduser = _connection.LoginforUsers(username, password, userid);
             if (founduser == null)
             {
                 return Page();
@@ -41,6 +44,7 @@ namespace ToDoH2.Pages
                 return RedirectToPage("/Todo");
             }
             return Page();
+
         }
 
     }
