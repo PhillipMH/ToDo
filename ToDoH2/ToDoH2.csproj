@@ -6,4 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ToDo_Domain\ToDo_Domain.csproj" />
+    <ProjectReference Include="..\ToDo_Services\ToDo_Services.csproj" />
+  </ItemGroup>
+
 </Project>

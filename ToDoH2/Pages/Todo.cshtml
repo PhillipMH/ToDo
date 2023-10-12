@@ -1,0 +1,26 @@
+﻿﻿@page "{userid:int}"
+@model ToDoH2.Pages.TodoModel
+@{
+}
+<head>
+	<script src="https://kit.fontawesome.com/477477980c.js" crossorigin="anonymous"></script>
+</head>
+
+
+<link rel="stylesheet" href="~/css/Booksite.css"/>
+	<div class="container">
+		@foreach(var item in Model.) {
+	<a asp-route-bookid="@item.bookid" asp-page="/Book">
+		<div class="image" style="background-image: url(@item.imagepath)">
+			<div class="overlay">
+					<div class="overlay-text">@item.booktitle</div>
+			</div>
+		</div>
+	</a>
+		
+}
+	</div>
+	<script>
+		document.querySelectorAll('.image').forEach(image => {
+			image.addEventListener('click', () => {
+				</Script>
