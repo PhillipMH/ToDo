@@ -1,6 +1,8 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
+using System.Formats.Tar;
 using Microsoft.Extensions.Logging;
+using Microsoft.Identity.Client;
 using ToDo_Domain.Entities;
 using static System.Reflection.Metadata.BlobBuilder;
 
@@ -156,6 +158,64 @@ namespace ToDo_Domain.Connection
             finally { _sqlConnection.Close(); }
             return null;
 
+        }
+        public bool AddToDoItemToUser(int userid, string todotitle, string tododesc, string prio)
+        {
+            bool todoitemcreated = false;
+            SqlCommand command = MySqlCommand("spAddToDoItem");
+            command.Parameters.AddWithValue("userid", userid);
+            command.Parameters.AddWithValue("TaskTitle", todotitle);
+            command.Parameters.AddWithValue("TaskDesc", tododesc);
+            command.Parameters.AddWithValue("Prio", prio);
+            try
+            {
+                _sqlConnection.Open();
+                command.ExecuteNonQuery();
+                todoitemcreated = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            finally { _sqlConnection.Close(); }
+            return todoitemcreated;
+        }
+        public ToDo MarkTodoCompleted(int todo)
+        {
+            SqlCommand command = MySqlCommand("spMarkCompleted");
+            command.Parameters.AddWithValue("@TodoID", todo);
+            try
+            {
+                _sqlConnection.Open();
+                command.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            finally { _sqlConnection.Close(); }
+            return null;
+        }
+        public void EditTodo(int todoid, string todotitle, string tododesc, string Prio)
+        {
+            SqlCommand command = MySqlCommand("spEditTodo");
+            command.Parameters.AddWithValue("@TodoId", todoid);
+            command.Parameters.AddWithValue("@TodoTitle", todotitle);
+            command.Parameters.AddWithValue("@TodoDesc", tododesc);
+            command.Parameters.AddWithValue("@Prio", Prio);
+            try
+            {
+                _sqlConnection.Open();
+                command.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            finally { _sqlConnection.Close(); }
         }
     }
 }

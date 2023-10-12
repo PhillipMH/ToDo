@@ -1,9 +1,8 @@
 ﻿@page
-@model TodoModel
+@model TodoModel;
 @{
 
 }
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,21 +13,54 @@
             padding: 10px;
             margin: 10px;
             width: 300px;
+            border-radius: 12px;
+            position: relative;
+            text-align: center;
         }
-        .todo-id{
+
+        .todo-id {
             font-size: 8px;
-            text-align: right;        }
+            text-align: right;
+        }
+
         .todo-title {
             font-weight: bold;
-            text-align: center
+            text-align: center;
         }
+
         .todo-desc {
             margin-top: 5px;
         }
+
         .datecreated {
             font-size: 10px;
             text-align: right;
-            
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .edit-todo, .mark-complete {
+            flex: 1;
+            padding: 5px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .edit-todo {
+            background-color: #17a2b8; /* Blue color for the "Edit" button */
+            margin-right: 5px;
+        }
+
+        .mark-complete {
+            background-color: #28a745; /* Green color for the "Mark Complete" button */
+            margin-left: 5px;
         }
     </style>
 </head>
@@ -37,35 +69,75 @@
         <h1>Welcome, @Model.name!</h1>
         <h2>TODO List</h2>
         <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">Add new todo</button>
-
+    </center>
         <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
             <div class="offcanvas-header">
-                <h3 id="offcanva">Add New ToDo</h3>
+                <center>
+                    <h3 id="offcanva">Add New ToDo</h3>
+                </center>
+                <form method="post" asp-page-handler="AddToDo">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Todo Title" asp-for="@Model.todotitle" required />
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Todo Description" asp-for="@Model.tododesc" required />
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <select class="form-control" asp-for="@Model.todoprio" required>
+                                    <option value="Low">Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add ToDo</button>
+                </form>
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
                 <!-- Your form for adding new todo items can go here -->
             </div>
         </div>
-    </center>
 
-    @if (Model.toDos.Count > 0)
+
+
+    @if (Model.toDos.Any())
     {
         @foreach (var todo in Model.toDos)
         {
             <center>
-            <div class="todo-box">
-                <div class="todo-id">@todo.todoId</div>
-                <div class="todo-title">@todo.ToDoTitle</div>
-                <div class="todo-desc">@todo.ToDoDescription</div>
-                <div class="datecreated">@todo.DateCreated</div>
-            </div>
+                <div class="todo-box">
+                    <div class="todo-id">@todo.todoId</div>
+                    <div class="todo-title">@todo.ToDoTitle</div>
+                    <div class="todo-desc">@todo.ToDoDescription</div>
+                    <div class="action-buttons">
+                        <button class="edit-todo" onclick="location.href='/EditTodo';">Edit</button>
+                        <input type="hidden" value="@todo.todoId"/>
+                        @if (!todo.iscompleted)
+                        {
+                            <form method="post" asp-page-handler="MarkComplete">
+                                <input type="hidden" name="todoId" value="@todo.todoId" />
+                                <button class="mark-complete" type="submit">Mark Complete</button>
+                            </form>
+                        }
+                    </div>
+                    <div class="datecreated">@todo.DateCreated</div>
+                </div>
             </center>
         }
     }
     else
     {
+        <center>
         <p>No TODO items found.</p>
+        </center>
     }
 </body>
 </html>
