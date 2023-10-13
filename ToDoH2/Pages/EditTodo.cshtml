@@ -1,0 +1,33 @@
+﻿@page
+@model ToDoH2.Pages.EditTodoModel
+@{
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Todo</title>
+</head>
+<body>
+    <h1>Edit Todo</h1>
+    <form method="post" action="/EditTodo">
+        <input type="hidden" name="todoid" value="@Model.Todoid">
+        <div>
+            <label for="todotitle">Todo Title:</label>
+            <input type="text" id="todotitle" name="todotitle" value="@Model.Todotitle" required>
+        </div>
+        <div>
+            <label for="tododesc">Todo Description:</label>
+            <input type="text" id="tododesc" name="tododesc" value="@Model.Tododesc" required>
+        </div>
+        <div>
+            <label for="Prio">Priority:</label>
+            <select id="Prio" name="Prio">
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+            </select>
+        </div>
+        <button type="submit">Save Changes</button>
+    </form>
+</body>
+</html>

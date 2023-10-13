@@ -25,6 +25,12 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
+                    @if (!string.IsNullOrEmpty(Context.Session.GetString("username")))
+                    {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/CompletedTasks">CompletedTodos</a>
+                            </li>
+                    }
                     </ul>
                 </div>
             </div>

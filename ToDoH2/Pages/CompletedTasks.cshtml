@@ -1,0 +1,106 @@
+﻿@page
+@model ToDoH2.Pages.CompletedTasksModel
+@{
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TODO List</title>
+    <style>
+        .todo-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            width: 300px;
+            border-radius: 12px;
+            position: relative;
+            text-align: center;
+        }
+
+        .todo-id {
+            font-size: 8px;
+            text-align: right;
+        }
+
+        .todo-title {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .todo-desc {
+            margin-top: 5px;
+        }
+
+        .datecreated {
+            font-size: 10px;
+            text-align: right;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .edit-todo, .mark-complete {
+            flex: 1;
+            padding: 5px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .edit-todo {
+            background-color: #17a2b8; /* Blue color for the "Edit" button */
+            margin-right: 5px;
+        }
+
+        .mark-complete {
+            background-color: #28a745; /* Green color for the "Mark Complete" button */
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <h1>Welcome, @Model.name!</h1>
+        <h2>TODO List</h2>
+        <button onclick="location.href='/Todo'">Go back to todolist</button>
+    </center>
+
+
+    @if (Model.toDosCompleted.Any())
+    {
+        @foreach (var todo in Model.toDosCompleted)
+        {
+            <center>
+                <div class="todo-box">
+                    <div class="todo-id">@todo.todoId</div>
+                    <div class="todo-title">@todo.ToDoTitle</div>
+                    <div class="todo-desc">@todo.ToDoDescription</div>
+                    <div class="action-buttons">                        
+                        @if (!todo.iscompleted)
+                        {
+                            <center>
+                            <form method="post" asp-page-handler="MarkUnComplete">
+                                <input type="hidden" name="todoId" value="@todo.todoId" />
+                                <button class="mark-complete" type="submit">Mark Uncompleted</button>
+                            </form>
+                            </center>
+                        }
+                    </div>
+                    <div class="datecreated">@todo.DateCreated</div>
+                </div>
+            </center>
+        }
+    }
+    else
+    {
+        <center>
+            <p>No TODO items found.</p>
+        </center>
+    }
+</body>
+</html>
