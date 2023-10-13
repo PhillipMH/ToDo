@@ -16,6 +16,6 @@ namespace ToDo_Domain.Entities
         [BindProperty]
         public bool iscompleted { get; set; } = false;
         [BindProperty]
-        public string Prio {  get; set; }
+        public string Prio {get; set;}
     }
 }

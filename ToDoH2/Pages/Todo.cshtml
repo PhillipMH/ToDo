@@ -62,6 +62,10 @@
             background-color: #28a745; /* Green color for the "Mark Complete" button */
             margin-left: 5px;
         }
+        .todo-prio {
+            font-size: 8px;
+            text-align: right;
+        }
     </style>
 </head>
 <body>
@@ -115,6 +119,7 @@
             <center>
                 <div class="todo-box">
                     <div class="todo-id">@todo.todoId</div>
+                    <div class="todo-prio">@todo.Prio</div>
                     <div class="todo-title">@todo.ToDoTitle</div>
                     <div class="todo-desc">@todo.ToDoDescription</div>
                     <div class="action-buttons">

@@ -217,5 +217,51 @@ namespace ToDo_Domain.Connection
             }
             finally { _sqlConnection.Close(); }
         }
+        public List<ToDo> GetCompletedTodosFromDb(int userid)
+        {
+            List<ToDo> completedtodos = new List<ToDo>();
+            SqlCommand command = MySqlCommand("spGetAllCompletedUserTodos");
+            command.Parameters.AddWithValue("@userid", userid);
+            try
+            {
+                _sqlConnection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    ToDo todo = new();
+                    todo.todoId = reader.GetInt32("todoid");
+                    todo.ToDoTitle = reader.GetString("TaskTitle");
+                    todo.ToDoDescription = reader.GetString("TaskDesc");
+                    todo.DateCreated = reader.GetDateTime("DateCreated");
+                    completedtodos.Add(todo);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.Write(e);
+                throw;
+            }
+            finally { _sqlConnection.Close(); }
+            return completedtodos;
+
+        }
+        public ToDo MarkTodoUncompleted(int todo)
+        {
+            SqlCommand command = MySqlCommand("spMarkUncompleted");
+            command.Parameters.AddWithValue("@TodoID", todo);
+            try
+            {
+                _sqlConnection.Open();
+                command.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            finally { _sqlConnection.Close(); }
+            return null;
+        }
+
     }
 }
